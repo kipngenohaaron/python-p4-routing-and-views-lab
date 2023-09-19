@@ -1,47 +1,25 @@
 #!/usr/bin/env python3
 
-# from flask import Flask
-
-# app = Flask(__name__)
-
-# @app.route('/')
-# def index():
-#     return'<h1>Welcome</h1>'
-
-
-# if __name__ == '__main__':
-#     app.run(port=5555, debug=True)
-
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(name)
 
-# Route for the index page
 @app.route('/')
 def index():
-    return "<h1>Python Operations with Flask Routing and Views</h1>"
+    return '<h1>Python Operations with Flask Routing and Views</h1>'
 
-# Route for the print_string view
-# @app.route('/print/<string:str_param>')
-# def print_string(str_param):
-#     print(str_param)
-#     return f"<p>Printed: {str_param}</p>"
-@app.route('/print/<string:str_param>')
-def print_string(str_param):
-    print(str_param)
-    return str_param  # Return only the string
+@app.route('/print/<parameter>')
+def print_parameter(parameter):
+    print(parameter)
+    return parameter
 
-# Route for the count view
-@app.route('/count/<int:num_param>')
-def count(num_param):
-    numbers = "\n".join(map(str, range(num_param)))
-    return numbers  # Return numbers as plain text
+@app.route('/count/<int:parameter>')
+def count_parameter(parameter):
+    count_list = [str(i) for i in range(parameter)]
+    return '\n'.join(count_list) + '\n'  
 
-
-# Route for the math view
-@app.route('/math/<float:num1>/<operation>/<float:num2>')
-def math(num1, operation, num2):
-    result = None
+@app.route('/math/<int:num1>/<operation>/<int:num2>')
+def math_operations(num1, operation, num2):
     if operation == '+':
         result = num1 + num2
     elif operation == '-':
@@ -49,16 +27,12 @@ def math(num1, operation, num2):
     elif operation == '*':
         result = num1 * num2
     elif operation == 'div':
-        if num2 != 0:
-            result = num1 / num2
-        else:
-            return "Division by zero is not allowed"
-
-    if result is not None:
-        return str(result)  # Return the result as a string
+        result = num1 / num2
+    elif operation == '%':
+        result = num1 % num2
     else:
-        return "Invalid operation"
+        return 'Invalid operation'
+    return str(result)
 
-
-if __name__ == '__main__':
+if name == 'main':
     app.run(port=5555, debug=True)
